@@ -32,10 +32,8 @@ public class PlayerListener implements Listener {
 				if (perm.has(e.getPlayer(), "portal.use", false) || perm.has(e.getPlayer(), "portal.use." + portal.getFillType().getName().toLowerCase(), false))
 				{
                                     if (portal.isBungee()){
-                                        System.out.println(p.getDisplayName() + "Teleporté sur un autre server.");
                                         portal.sendPlayerToServer(p);
                                     }else{
-                                        System.out.println(p.getDisplayName() + "Teleporté dans ce server.");
 					e.setCancelled(!portal.teleportPlayer(p));
                                     }
 				} else {
