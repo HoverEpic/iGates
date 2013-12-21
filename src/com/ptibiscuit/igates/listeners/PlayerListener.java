@@ -7,10 +7,12 @@ package com.ptibiscuit.igates.listeners;
 import com.ptibiscuit.framework.permission.PermissionHandler;
 import com.ptibiscuit.igates.Plugin;
 import com.ptibiscuit.igates.data.Portal;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -47,7 +49,7 @@ public class PlayerListener implements Listener {
 	}
 	
 	// This is for disallowing people to use end-portal and nether-portal to go to these land.
-	@EventHandler(priority=EventPriority.NORMAL)
+	@EventHandler(priority=EventPriority.HIGH)
 	public void onPlayerUsePortal(PlayerPortalEvent e) {
 		if (e.getCause() == TeleportCause.END_PORTAL || e.getCause() == TeleportCause.NETHER_PORTAL) {
 			Portal p = Plugin.instance.getPortalByPosition(e.getFrom(), 0.7);
@@ -55,5 +57,16 @@ public class PlayerListener implements Listener {
 				e.setCancelled(true);
 			}
 		}
+	}
+        
+        // Pour téléporter au spawn un joueur qui arrive dans un portail.
+        @EventHandler(priority=EventPriority.HIGH)
+	public void onPlayerJoin(PlayerJoinEvent e) {
+            Player playerJoined = e.getPlayer();
+            Portal p = Plugin.instance.getPortalByPosition(playerJoined.getLocation(), 0.7);
+            Location s = playerJoined.getWorld().getSpawnLocation();
+            if (p != null) {
+                playerJoined.teleport(s);
+            }
 	}
 }
