@@ -23,9 +23,11 @@ public class YamlData implements IData {
 	
 	@Override
 	public Portal createPortal(String tag, Location to, ArrayList<Volume> froms, FillType fillType) {
-		Portal portal = new Portal(tag, to, froms, 0, fillType, false);
+		Portal portal = new Portal(tag, to, "", froms, 0, fillType, false, false);
 		config.set("portals." + portal.getTag() + ".enable", false);
+                config.set("portals." + portal.getTag() + ".switchServer", false);
 		config.set("portals." + portal.getTag() + ".to", this.convertLocationToString(to));
+                config.set("portals." + portal.getTag() + ".toServer", "");
 		config.set("portals." + portal.getTag() + ".yaw", to.getYaw());
 		config.set("portals." + portal.getTag() + ".pitch", to.getPitch());
 		config.set("portals." + portal.getTag() + ".filltype", fillType.getName());
@@ -46,6 +48,7 @@ public class YamlData implements IData {
 				ConfigurationSection values = (ConfigurationSection) entry.getValue();
 				// Loader le point To
 				Location to = null;
+                                String toServer = "";
 				if (values.get("to") != null)
 				{
 					to = this.convertStringToLocation(values.get("to").toString());
@@ -53,6 +56,10 @@ public class YamlData implements IData {
 						to.setPitch(Float.parseFloat(values.getString("pitch")));
 					if (values.getString("yaw") != null)
 						to.setYaw(Float.parseFloat(values.getString("yaw")));
+				}
+                                if (values.get("toServer") != null)
+				{
+                                    toServer = values.get("toServer").toString();
 				}
 				// Getting the price
 				int price = 0;
@@ -75,7 +82,8 @@ public class YamlData implements IData {
 				}
 				// Loader l'active
 				boolean active = values.getBoolean("enable");
-				Portal p = new Portal(tag, to, froms, price, filltype, active);
+                                boolean switchServer = values.getBoolean("switchServer");
+				Portal p = new Portal(tag, to,toServer, froms, price, filltype, active, switchServer);
 				portals.add(p);
 			}
 		}
@@ -112,6 +120,15 @@ public class YamlData implements IData {
 		
 		portal.setActive(active);
 	}
+        
+        
+        @Override
+        public void setBungee(Portal portal, boolean bungee) {
+                config.set("portals." + portal.getTag() + ".enable", bungee);
+                Plugin.instance.saveConfig();
+
+                portal.setBungee(bungee);
+        }
 
 	@Override
 	public void setPrice(Portal p, int price)
@@ -128,6 +145,14 @@ public class YamlData implements IData {
 		Plugin.instance.saveConfig();
 		
 		portal.setToPoint(l);
+	}
+        
+        @Override
+	public void setServer(Portal portal, String server) {
+		config.set("portals." + portal.getTag() + ".toServer", server);
+		Plugin.instance.saveConfig();
+		
+		portal.setServer(server);
 	}
 
 	@Override
@@ -153,5 +178,6 @@ public class YamlData implements IData {
 		
 		portal.setFromPoints(froms);
 	}
+
 	
 }

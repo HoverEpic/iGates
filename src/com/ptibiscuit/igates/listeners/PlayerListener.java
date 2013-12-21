@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class PlayerListener implements Listener {
@@ -32,7 +31,13 @@ public class PlayerListener implements Listener {
 				// Soit il possède la permission use, soit il possède la permissions spéciale. =)
 				if (perm.has(e.getPlayer(), "portal.use", false) || perm.has(e.getPlayer(), "portal.use." + portal.getFillType().getName().toLowerCase(), false))
 				{
+                                    if (portal.isBungee()){
+                                        System.out.println(p.getDisplayName() + "Teleporté sur un autre server.");
+                                        portal.sendPlayerToServer(p);
+                                    }else{
+                                        System.out.println(p.getDisplayName() + "Teleporté dans ce server.");
 					e.setCancelled(!portal.teleportPlayer(p));
+                                    }
 				} else {
 					Plugin.instance.sendPreMessage(e.getPlayer(), "cant_do");
 					e.setCancelled(true);

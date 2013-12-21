@@ -37,6 +37,7 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 	public void onConfigurationDefault(FileConfiguration c) {
 		c.set("portals", new HashMap<String, Object>());
 		c.set("config.retain_liquid", false);
+                c.set("config.InventorySQL_support", false);
 		c.set("config.display_message_selection", true);
 	}
 
@@ -46,6 +47,7 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 		this.instance = this;
 		this.myLog.startFrame();
 		this.myLog.addInFrame("iGates by Ptibiscuit");
+                this.myLog.addInFrame("Modified for Hovercarft");
 		this.myLog.addCompleteLineInFrame();
 		
 		this.data = new YamlData();
@@ -64,6 +66,8 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 		pgm.registerEvents(this, this);
 		
 		this.myLog.displayFrame(false);
+                //register BungeeCord chanel to send server command
+                getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	}
 	
 	@Override
@@ -75,8 +79,10 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 		p.setProperty("ft_dont_exist", "This FillType doesn't exist (water, portal, end_portal, lava, web)");
 		p.setProperty("tag_dont_exist", "This portal's tag doesn't exist.");
 		p.setProperty("set_active", "This portal has been turned {ACTIVE}.");
+		p.setProperty("set_bungee", "This portal is now bungee ({SWITCH}).");
 		p.setProperty("set_filltype", "This portal's filltype is now {FILLTYPE}.");
 		p.setProperty("set_to", "The new \"to\" point of the portal is set.");
+                p.setProperty("set_server", "The new \"to\" server of the portal is set.");
 		p.setProperty("portal_deleted", "Portal deleted. :'(");
 		p.setProperty("first_point_set", "The first point of your selection is set !");
 		p.setProperty("second_point_set", "The second point of your selection is set !");
@@ -174,6 +180,12 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 					this.data.setActive(portal, active);
 					this.sendMessage(sender, this.getSentence("set_active").replace("{ACTIVE}", args[0]));
 				}
+                                else if (args[0].equalsIgnoreCase("bungee"))
+				{
+					boolean switchServer = (args[2].equalsIgnoreCase("on")) ? true : false; 
+					this.data.setBungee(portal, switchServer);
+					this.sendMessage(sender, this.getSentence("set_bungee").replace("{SWITCH}", args[2]));
+				}
 				else if (args[0].equalsIgnoreCase("price"))
 				{
 					int price = new Integer(args[2]);
@@ -184,6 +196,11 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 				{
 					this.data.setSpawn(portal, p.getLocation());
 					this.sendMessage(sender, this.getSentence("set_to"));
+				}
+                                else if (args[0].equalsIgnoreCase("server"))
+				{
+					this.data.setServer(portal, args[2]);
+					this.sendMessage(sender, this.getSentence("set_server"));
 				}
 				else if (args[0].equalsIgnoreCase("filltype"))
 				{

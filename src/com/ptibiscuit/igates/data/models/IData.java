@@ -12,7 +12,9 @@ public interface IData {
 	public ArrayList<Portal> getPortals();
 	public void deletePortal(Portal portal);
 	public void setActive(Portal portal, boolean active);
+        public void setBungee(Portal portal, boolean switchServer);
 	public void setSpawn(Portal portal, Location l);
+        public void setServer(Portal portal, String server);
 	public void setPrice(Portal p, int price);
 	public void setFillType(Portal portal, FillType filltype);
 	public void setFromsAreas(Portal portal, ArrayList<Volume> froms);
