@@ -114,6 +114,7 @@ public class Portal {
 		{
                     // ici action de téléport server
                     Bukkit.getServer().getLogger().log(Level.INFO, "Player {0} teleported to server {1}.", new Object[]{p.getDisplayName(), this.server});
+                    p.sendMessage("Teleport to server "+this.server+".");
                     ServerChanger.changeServerTarget(this.server, p);
                 } else {
                     Bukkit.getServer().getLogger().log(Level.INFO, "Switch server without InventorySQL not implemented.");
