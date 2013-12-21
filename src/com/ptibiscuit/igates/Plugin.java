@@ -182,8 +182,8 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 				}
                                 else if (args[0].equalsIgnoreCase("bungee"))
 				{
-					boolean switchServer = (args[2].equalsIgnoreCase("on")) ? true : false; 
-					this.data.setBungee(portal, switchServer);
+					boolean bungee = (args[2].equalsIgnoreCase("on")) ? true : false; 
+					this.data.setBungee(portal, bungee);
 					this.sendMessage(sender, this.getSentence("set_bungee").replace("{SWITCH}", args[2]));
 				}
 				else if (args[0].equalsIgnoreCase("price"))

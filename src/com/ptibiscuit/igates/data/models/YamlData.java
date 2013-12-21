@@ -124,7 +124,7 @@ public class YamlData implements IData {
         
         @Override
         public void setBungee(Portal portal, boolean bungee) {
-                config.set("portals." + portal.getTag() + ".enable", bungee);
+                config.set("portals." + portal.getTag() + ".bungee", bungee);
                 Plugin.instance.saveConfig();
 
                 portal.setBungee(bungee);
