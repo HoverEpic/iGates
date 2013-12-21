@@ -25,7 +25,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class Plugin extends JavaPluginEnhancer implements Listener {
 	public static Plugin instance;
-	
+	public static final String CHANNEL = "BungeeCord";
+        
 	private IData data;
 	private VolumeSelectionManager vsm = new VolumeSelectionManager();
 	private SpreadBlockListener sbl = new SpreadBlockListener();
@@ -67,7 +68,7 @@ public class Plugin extends JavaPluginEnhancer implements Listener {
 		
 		this.myLog.displayFrame(false);
                 //register BungeeCord chanel to send server command
-                getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+                getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
 	}
 	
 	@Override

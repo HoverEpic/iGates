@@ -5,6 +5,9 @@
 package com.ptibiscuit.igates.data;
 
 import com.ptibiscuit.igates.Plugin;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import net.milkbowl.vault.economy.Economy;
@@ -117,7 +120,16 @@ public class Portal {
                     p.sendMessage("Teleport to server "+this.server+".");
                     ServerChanger.changeServerTarget(this.server, p);
                 } else {
-                    Bukkit.getServer().getLogger().log(Level.INFO, "Switch server without InventorySQL not implemented.");
+                    ByteArrayOutputStream b = new ByteArrayOutputStream();
+                    DataOutputStream out = new DataOutputStream(b);
+                    try {
+                        out.writeUTF("Connect");
+                        out.writeUTF(server);
+                    } catch (IOException e) {
+                    }
+                    Bukkit.getServer().getLogger().log(Level.INFO, "Player {0} teleported to server {1}.", new Object[]{p.getDisplayName(), this.server});
+                    p.sendMessage("Teleport to server "+this.server+".");
+                    p.sendPluginMessage(Plugin.instance, Plugin.CHANNEL, b.toByteArray());
                 }
                 
 		return true;
