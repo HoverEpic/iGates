@@ -57,9 +57,9 @@ public class YamlData implements IData {
 					if (values.getString("yaw") != null)
 						to.setYaw(Float.parseFloat(values.getString("yaw")));
 				}
-                                if (values.get("toServer") != null)
+                                if (values.get("server") != null)
 				{
-                                    toServer = values.get("toServer").toString();
+                                    toServer = values.get("server").toString();
 				}
 				// Getting the price
 				int price = 0;
@@ -82,7 +82,7 @@ public class YamlData implements IData {
 				}
 				// Loader l'active
 				boolean active = values.getBoolean("enable");
-                                boolean switchServer = values.getBoolean("switchServer");
+                                boolean switchServer = values.getBoolean("bungee");
 				Portal p = new Portal(tag, to,toServer, froms, price, filltype, active, switchServer);
 				portals.add(p);
 			}
