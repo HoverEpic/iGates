@@ -25,9 +25,9 @@ public class YamlData implements IData {
 	public Portal createPortal(String tag, Location to, ArrayList<Volume> froms, FillType fillType) {
 		Portal portal = new Portal(tag, to, "", froms, 0, fillType, false, false);
 		config.set("portals." + portal.getTag() + ".enable", false);
-                config.set("portals." + portal.getTag() + ".switchServer", false);
+                config.set("portals." + portal.getTag() + ".bungee", false);
 		config.set("portals." + portal.getTag() + ".to", this.convertLocationToString(to));
-                config.set("portals." + portal.getTag() + ".toServer", "");
+                config.set("portals." + portal.getTag() + ".server", "");
 		config.set("portals." + portal.getTag() + ".yaw", to.getYaw());
 		config.set("portals." + portal.getTag() + ".pitch", to.getPitch());
 		config.set("portals." + portal.getTag() + ".filltype", fillType.getName());
@@ -149,7 +149,7 @@ public class YamlData implements IData {
         
         @Override
 	public void setServer(Portal portal, String server) {
-		config.set("portals." + portal.getTag() + ".toServer", server);
+		config.set("portals." + portal.getTag() + ".server", server);
 		Plugin.instance.saveConfig();
 		
 		portal.setServer(server);
