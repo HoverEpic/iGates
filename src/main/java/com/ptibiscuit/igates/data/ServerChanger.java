@@ -4,13 +4,13 @@
  */
 package com.ptibiscuit.igates.data;
 
-import com.ptibiscuit.igates.Plugin;
+import com.ptibiscuit.igates.IGates;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import org.bukkit.entity.Player;
-import tk.manf.InventorySQL.manager.DatabaseManager;
-import tk.manf.InventorySQL.manager.InventoryLockingSystem;
+//import tk.manf.InventorySQL.manager.DatabaseManager;
+//import tk.manf.InventorySQL.manager.InventoryLockingSystem;
 
 /**
  *
@@ -22,8 +22,8 @@ public class ServerChanger {
 
     public static void changeServerTarget(String server, Player target) {
 
-        InventoryLockingSystem.getInstance().addLock(target.getName());
-        DatabaseManager.getInstance().savePlayer(target);
+//        InventoryLockingSystem.getInstance().addLock(target.getName());
+//        DatabaseManager.getInstance().savePlayer(target);
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);
         try {
@@ -32,7 +32,7 @@ public class ServerChanger {
         } catch (IOException e) {
         }
 
-        target.sendPluginMessage(Plugin.instance, CHANNEL, b.toByteArray());
-        InventoryLockingSystem.getInstance().removeLock(target.getName());
+        target.sendPluginMessage(IGates.getPlugin(), CHANNEL, b.toByteArray());
+//        InventoryLockingSystem.getInstance().removeLock(target.getName());
     }
 }

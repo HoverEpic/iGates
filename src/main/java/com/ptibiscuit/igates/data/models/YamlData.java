@@ -4,7 +4,7 @@
  */
 package com.ptibiscuit.igates.data.models;
 
-import com.ptibiscuit.igates.Plugin;
+import com.ptibiscuit.igates.IGates;
 import com.ptibiscuit.igates.data.FillType;
 import com.ptibiscuit.igates.data.Portal;
 import com.ptibiscuit.igates.data.Volume;
@@ -31,7 +31,7 @@ public class YamlData implements IData {
 		config.set("portals." + portal.getTag() + ".yaw", to.getYaw());
 		config.set("portals." + portal.getTag() + ".pitch", to.getPitch());
 		config.set("portals." + portal.getTag() + ".filltype", fillType.getName());
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		
 		portals.add(portal);
 		return portal;
@@ -39,7 +39,7 @@ public class YamlData implements IData {
 
 	@Override
 	public void loadPortals() {
-		config = Plugin.instance.getConfig();
+		config = IGates.getPlugin().getConfig();
 		if (config.getConfigurationSection("portals") != null)
 		{
 			for (Entry<String, Object> entry : config.getConfigurationSection("portals").getValues(false).entrySet())
@@ -69,7 +69,7 @@ public class YamlData implements IData {
 				FillType filltype = FillType.getFillType(values.getString("filltype"));
 				if (filltype == null)
 				{
-					Plugin.instance.getMyLogger().severe(tag + " is in an old portal's configuration, modify it !");
+					IGates.getPlugin().getLogger().severe(tag + " is in an old portal's configuration, modify it !");
 				}
 				// Loader les froms
 				ArrayList<Volume> froms = new ArrayList<Volume>();
@@ -97,7 +97,7 @@ public class YamlData implements IData {
 	@Override
 	public void deletePortal(Portal portal) {
 		config.set("portals." + portal.getTag(), null);
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		portals.remove(portal);
 	}
 	
@@ -116,7 +116,7 @@ public class YamlData implements IData {
 	@Override
 	public void setActive(Portal portal, boolean active) {
 		config.set("portals." + portal.getTag() + ".enable", active);
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		
 		portal.setActive(active);
 	}
@@ -125,7 +125,7 @@ public class YamlData implements IData {
         @Override
         public void setBungee(Portal portal, boolean bungee) {
                 config.set("portals." + portal.getTag() + ".bungee", bungee);
-                Plugin.instance.saveConfig();
+                IGates.getPlugin().saveConfig();
 
                 portal.setBungee(bungee);
         }
@@ -134,7 +134,7 @@ public class YamlData implements IData {
 	public void setPrice(Portal p, int price)
 	{
 		config.set("portals." + p.getTag() + ".price", price);
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class YamlData implements IData {
 		config.set("portals." + portal.getTag() + ".to", this.convertLocationToString(l));
 		config.set("portals." + portal.getTag() + ".yaw", l.getYaw());
 		config.set("portals." + portal.getTag() + ".pitch", l.getPitch());
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		
 		portal.setToPoint(l);
 	}
@@ -150,7 +150,7 @@ public class YamlData implements IData {
         @Override
 	public void setServer(Portal portal, String server) {
 		config.set("portals." + portal.getTag() + ".server", server);
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		
 		portal.setServer(server);
 	}
@@ -158,7 +158,7 @@ public class YamlData implements IData {
 	@Override
 	public void setFillType(Portal portal, FillType filltype) {
 		config.set("portals." + portal.getTag() + ".filltype", filltype.getName());
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		
 		portal.setFillType(filltype);
 	}
@@ -174,7 +174,7 @@ public class YamlData implements IData {
 			fin.add(to);
 		}
 		config.set("portals." + portal.getTag() + ".froms", fin);
-		Plugin.instance.saveConfig();
+		IGates.getPlugin().saveConfig();
 		
 		portal.setFromPoints(froms);
 	}
